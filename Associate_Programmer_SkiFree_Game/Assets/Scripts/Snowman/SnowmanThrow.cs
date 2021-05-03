@@ -11,7 +11,7 @@ public class SnowmanThrow : MonoBehaviour
 
     void Start()
     {
-        
+        player = GameObject.Find("Player");
     }
 
     void Update()

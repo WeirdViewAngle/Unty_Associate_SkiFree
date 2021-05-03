@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 8218538430451728961}
   - component: {fileID: 6235644573807342233}
   - component: {fileID: 3203532683021034060}
+  - component: {fileID: 5352090602176730197}
   m_Layer: 0
   m_Name: polySurface8
   m_TagString: Untagged
@@ -113,6 +114,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &5352090602176730197
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124254098320377443}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.8275927
+  m_Height: 19.194439
+  m_Direction: 1
+  m_Center: {x: -0.0000007748604, y: 8.572378, z: -0.00000035762787}
 --- !u!1 &5167333709028228259
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +374,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9037381300153515870}
-  - component: {fileID: 8215603363604450151}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Obstacle
@@ -382,17 +396,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &8215603363604450151
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8512061430073664996}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 22
-  m_Direction: 1
-  m_Center: {x: 10.5, y: -4.22, z: 12}
