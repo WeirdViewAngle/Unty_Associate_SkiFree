@@ -11,32 +11,27 @@ public class Player : MonoBehaviour
         [Tooltip("Player Rotate Speed")]
         public float rotateSpeed;
 
-        [Tooltip("Player lives")]
-        public int lives;
+        [Tooltip("Speed increase for moving forward")]
+        public float rotateAcceleration;
 
-        [Tooltip("Player default forward speed")]
-        public float forwardSpeed;
+        [Tooltip("Speed decrease for moving to the sides")]
+        public float rotateDeceleration;
 
-<<<<<<< Updated upstream
-        [Tooltip("Player maximum velocity")]
-        public float maxPlayerVelocity;
-=======
-        [Tooltip("Player maximum speed")]
-        public float maxSpeed;
+        [Tooltip("Player speed")]
+        public float speed;
 
         [Tooltip("Player minimum speed")]
         public float minSpeed;
 
+        [Tooltip("Player maximum speed")]
+        public float maxSpeed;
+
         [Tooltip("Speed boost ammount")]
         public float speedBoost;
->>>>>>> Stashed changes
     }
 
     public PlayerStats playerStats;
 
-<<<<<<< Updated upstream
-    [SerializeField] Rigidbody playerRB;
-=======
     public KeyCode left, right, boost;
 
 
@@ -52,7 +47,6 @@ public class Player : MonoBehaviour
         playerAnim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody>();
     }
->>>>>>> Stashed changes
 
     void Update()
     {
@@ -63,10 +57,13 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         //Check max velocity and limits it
-        MaxVelocityCheck();
+        SpeedCheck();
 
         //Maintaining acceleration
         ForwardSpeedMaintain();
+
+        //Checks grounded
+        CheckForGround();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -74,43 +71,22 @@ public class Player : MonoBehaviour
         UIManager._Instance.reduseHealthEvent.Invoke(1);
     }
 
-    #region Player Movement
-    void CheckForInput()
+    void CheckForGround()
     {
-<<<<<<< Updated upstream
-        if (Input.GetKey(KeyCode.A))
-=======
         if (Physics.Raycast(transform.position, Vector3.down, 0.2f))
         {
-            onTheGround = true;            
+            onTheGround = true;
         }
         else
->>>>>>> Stashed changes
         {
-            transform.Rotate(Vector3.up, playerStats.rotateSpeed * Time.deltaTime);
+            onTheGround = false;
         }
-<<<<<<< Updated upstream
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.up, -playerStats.rotateSpeed * Time.deltaTime);
-        }
-    }
-
-    void MaxVelocityCheck()
-    {
-        if(playerRB.velocity.magnitude > playerStats.maxPlayerVelocity)
-        {
-            playerRB.velocity = playerRB.velocity.normalized * playerStats.maxPlayerVelocity;
-        }
-=======
-
-        AnimChangeBoolGrounded(onTheGround);
     }
 
     #region Player Movement
     void CheckForInput()
-    {        
-        if (onTheGround && moving)  
+    {
+        if (onTheGround && moving)
         {
             if (Input.GetKey(left))
                 MoveRight();
@@ -125,54 +101,48 @@ public class Player : MonoBehaviour
 
     void MoveRight()
     {
-        if (transform.eulerAngles.y < 275)
+        if (transform.eulerAngles.y < 274)
         {
             transform.Rotate(new Vector3(0, playerStats.rotateSpeed * Time.deltaTime, 0), Space.Self);
-        }        
->>>>>>> Stashed changes
+        }
     }
 
     void MoveLeft()
     {
-<<<<<<< Updated upstream
-        playerRB.AddForce(transform.forward * playerStats.forwardSpeed * Time.deltaTime,
-                          ForceMode.Impulse);
-    }
-    #endregion
-=======
-        if (transform.eulerAngles.y > 91) 
+        if (transform.eulerAngles.y > 91)
         {
             transform.Rotate(new Vector3(0, -playerStats.rotateSpeed * Time.deltaTime, 0), Space.Self);
         }
     }
 
+
     void BoostSpeed()
     {
         if (!boostActivated)
-         {
+        {
             playerRB.AddForce(transform.forward * Time.fixedDeltaTime * playerStats.speedBoost,
                           ForceMode.Impulse);
             playerStats.maxSpeed *= 1.5f;
 
             boostActivated = true;
-            StartCoroutine("WaitCoroutine", 5);           
+            StartCoroutine("WaitCoroutine", 5);
         }
     }
-    void MaxVelocityCheck()
+    void SpeedCheck()
     {
-        if(playerStats.speed > playerStats.maxSpeed)
+        if (playerStats.speed > playerStats.maxSpeed)
         {
             playerStats.speed = playerStats.maxSpeed;
             AnimChangeFloatSpeed(2);
         }
 
-        if(playerStats.speed < playerStats.maxSpeed &&
+        if (playerStats.speed < playerStats.maxSpeed &&
             playerStats.speed > playerStats.minSpeed)
         {
             AnimChangeFloatSpeed(0.5f);
         }
 
-        if(playerStats.speed < playerStats.minSpeed)
+        if (playerStats.speed < playerStats.minSpeed)
         {
             playerStats.speed = playerStats.minSpeed;
             AnimChangeFloatSpeed(0);
@@ -216,9 +186,8 @@ public class Player : MonoBehaviour
 
     IEnumerator WaitCoroutine(float time)
     {
-        yield return new WaitForSecondsRealtime(time); 
+        yield return new WaitForSecondsRealtime(time);
         boostActivated = false;
         playerStats.maxSpeed /= 1.5f;
     }
->>>>>>> Stashed changes
 }
