@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
         timer.Run();
 
         //Setting properties
+        playerHealth = playerScript.playerStats.lives;
 
         reduseHealthEvent += ReduseHealth;
     }
