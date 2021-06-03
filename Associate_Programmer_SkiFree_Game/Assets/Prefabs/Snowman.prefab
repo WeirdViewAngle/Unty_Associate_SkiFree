@@ -801,6 +801,7 @@ GameObject:
   - component: {fileID: 9117953069100586070}
   - component: {fileID: 4085612886327515353}
   - component: {fileID: 1906817192}
+  - component: {fileID: 817619575773324071}
   m_Layer: 10
   m_Name: Snowman
   m_TagString: Untagged
@@ -862,3 +863,15 @@ MonoBehaviour:
   player: {fileID: 0}
   throwDistance: 50
   throwSpeed: 1250
+--- !u!114 &817619575773324071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485532309953187564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e408f9602391a448a36889cc61e1f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

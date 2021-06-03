@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -28,15 +29,17 @@ public class Player : MonoBehaviour
 
         [Tooltip("Speed boost ammount")]
         public float speedBoost;
+
+        [Tooltip("Time ammout if player was disabled by hit")]
+        public float disableTime;
     }
 
     public PlayerStats playerStats;
-
     public KeyCode left, right, boost;
 
+    public CharacterDisableEvent characterDisableEvent;
 
     Animator playerAnim;
-
     Rigidbody playerRB;
 
     public bool moving;
@@ -44,8 +47,13 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        //add components 
         playerAnim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody>();
+
+        //add event listener
+        characterDisableEvent = new CharacterDisableEvent();
+        characterDisableEvent.AddListener(DisableAndPuckBackByCollision);
     }
 
     void Update()
@@ -66,9 +74,14 @@ public class Player : MonoBehaviour
         CheckForGround();
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    void DisableAndPuckBackByCollision(float force)
     {
-        //UIManager._Instance.reduseHealthEvent.Invoke(1);
+        moving = false;
+        playerRB.AddForce(-transform.forward * Time.fixedDeltaTime * force,
+                          ForceMode.Impulse);
+        AnimChangeFloatSpeed(0);
+        StartCoroutine("WaitCoroutineDisable", playerStats.disableTime);
     }
 
     void CheckForGround()
@@ -90,25 +103,15 @@ public class Player : MonoBehaviour
     {
         if (onTheGround && moving)
         {
-            if (onTheGround && moving)
-            {
-                if (Input.GetKey(left))
-                {
-                    MoveLeft();
-                }
+            if (Input.GetKey(left))
+                MoveLeft();
 
-                if (Input.GetKey(right))
-                {
-                    MoveRight();
-                }
+            if (Input.GetKey(right))
+                MoveRight();
 
-                if (Input.GetKey(boost))
-                {
-                    BoostSpeed();
-                }
-            }
+            if (Input.GetKey(boost))
+                BoostSpeed();
         }
-
     }
 
     void MoveRight()
@@ -136,7 +139,7 @@ public class Player : MonoBehaviour
             playerStats.maxSpeed *= 1.5f;
 
             boostActivated = true;
-            StartCoroutine("WaitCoroutine", 5);           
+            StartCoroutine("WaitCoroutineBoost", 5);           
         }
     }
     void SpeedCheck()
@@ -195,10 +198,18 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    IEnumerator WaitCoroutine(float time)
+    #region Coroutines
+    IEnumerator WaitCoroutineBoost(float time)
     {
-        yield return new WaitForSecondsRealtime(time); 
-        boostActivated = false;
-        playerStats.maxSpeed /= 1.5f;
+        yield return new WaitForSecondsRealtime(time);
+            boostActivated = false;
+            playerStats.maxSpeed /= 1.5f;
     }
+
+    IEnumerator WaitCoroutineDisable(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        moving = true;
+    }
+    #endregion
 }
